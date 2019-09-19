@@ -1,0 +1,2 @@
+class Footnote < ApplicationRecord
+end
