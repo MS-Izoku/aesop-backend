@@ -3,14 +3,15 @@
 class StoriesController < ApplicationController
   def index
     stories = Story.where(user_id: params[:user_id])
-    render json: StorySerializer.new(stories)
+    # render json: StorySerializer.new(stories)
+    render json: stories , include: [:chapters]
   end
 
   def create
     story = Story.new(story_params)
     if story.save?
       story.create_ownership
-      render json: StorySerializer.new(story)
+      render json: story
     else
       render json: 'Failed to create new Story'
     end
@@ -18,13 +19,13 @@ class StoriesController < ApplicationController
 
   def show
     story = Story.find_by(id: params[:id] , user_id: params[:user_id])
-    render json: StorySerializer.new(story)
+    render json: story
   end
 
   def update
     story = Story.find_by(id: params[:id] , user_id: params[:user_id])
     if story.update(story_update_params)
-      render json: StorySerializer.new(story)
+      render json: story
     else
       render json: "Failed to Update '#{story.title}'"
     end

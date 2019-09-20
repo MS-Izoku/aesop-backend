@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-User.delete_all
-Story.delete_all
-UserStory.delete_all
-Chapter.delete_all
-
 lilJim = User.create(username: 'LilJimmy', password: 'password', email: 'email-address-goes-here')
 genesis = Story.create(title: 'The Tale of Darth Plageius the Wise', user_id: lilJim.id)
 UserStory.create(story_id: genesis.id, user_id: lilJim.id)

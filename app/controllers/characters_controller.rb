@@ -9,7 +9,7 @@ class CharactersController < ApplicationController
       render json: 'Character Not Found , Story is nil', status: 404
     else
       characters = current_story.characters
-      render json: CharacterSerializer.new(characters)
+      render json: characters
     end
   end
 
@@ -21,7 +21,7 @@ class CharactersController < ApplicationController
       all_characters = current_story.characters
       if all_characters.include?(Character.find_by(id: params[:id]))
         character = Character.find_by(id: params[:id])
-        render json: CharacterSerializer.new(character)
+        render json: character
       else
         render json: 'Character Not Found in this Story', status: 404
       end
@@ -32,7 +32,7 @@ class CharactersController < ApplicationController
     character = Character.new(character_params)
     character.story_id = params[:story_id]
     if chapter.save?
-      render json: CharacterSerializer.new(character)
+      render json: character
     else
       render json: 'New Character did not save', status: 400
     end
@@ -46,7 +46,7 @@ class CharactersController < ApplicationController
       if current_story.characters.include?(Character.find_by(id: params[:id]))
         character = Character.find_by(id: params[:id])
         if character.update(character_params)
-          render json: ChapterSerializer.new(character)
+          render json: character
         end
       else
         render json: 'Character does not exist in this Story', status: 404

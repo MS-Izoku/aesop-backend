@@ -3,7 +3,7 @@
 class UserStoriesController < ApplicationController
   def show
     user_story = UserStory.find_by(id: params[:id])
-    render json: UserStorySerializer.new(user_story)
+    render json: user_story
   end
 
   def update
