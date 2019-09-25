@@ -1,16 +1,10 @@
 Rails.application.routes.draw do
-  resources :footnotes
-  # resources :character_in_chapters
-  # resources :characters
-  # resources :user_stories
-  # resources :users
-  # resources :chapters
-  # resources :stories
-
   resources :users do
     resources :stories do
       resources :characters
-      resources :chapters
+      resources :chapters do
+          resources :footnotes
+      end
     end
   end
 

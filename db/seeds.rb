@@ -35,3 +35,7 @@ end
 10.times do
     Character.create(name: Faker::Name.name , story_id: 1)
 end
+
+5.times do
+  Footnote.create(chapter_id: 11 , title: 'FOOTNOTE' , body: "FN-BODY")
+end

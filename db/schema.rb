@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_19_163621) do
+ActiveRecord::Schema.define(version: 2019_09_25_191413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,8 +37,10 @@ ActiveRecord::Schema.define(version: 2019_09_19_163621) do
     t.text "biography"
     t.text "personality"
     t.integer "story_id"
+    t.string "img_url", default: "https://cdn1us.denofgeek.com/sites/denofgeekus/files/styles/main_wide/public/2019/05/toy_story_4_duke_caboom_keanu_reeves.jpg?itok=adUMUrqP"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "appearance"
   end
 
   create_table "footnotes", force: :cascade do |t|
