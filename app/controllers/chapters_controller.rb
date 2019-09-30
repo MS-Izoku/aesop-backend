@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ChaptersController < ApplicationController
-#   # params ==> id (chapter id) , user_id , story_id
+  #   # params ==> id (chapter id) , user_id , story_id
   def index
     current_story = Story.find_by(id: params[:story_id], user_id: params[:user_id])
     if current_story.nil?
@@ -15,22 +15,25 @@ class ChaptersController < ApplicationController
   def create
     current_story = Story.find_by(id: params[:story_id])
     if current_story.nil?
-        render json: 'No Story Found to Post to'
+      render json: 'No Story Found to Post to'
     else
-        chapter = Chapter.new(chapter_params)
-        chapter.story_id = current_story.id
-        if(chapter.save)
-            render json: chapter
-        else
-            render json: 'Chapter Failed to Save'
-        end
+      chapter = Chapter.new(chapter_params)
+      chapter_count = current_story.chapters.count
+      chapter_count = 1 if chapter_count === 0
+      chapter.chapter_index = chapter_count
+      chapter.story_id = current_story.id
+      if chapter.save
+        render json: chapter
+      else
+        render json: 'Chapter Failed to Save'
+      end
     end
   end
 
   def show
     current_story = Story.find_by(id: params[:story_id], user_id: params[:user_id])
     if current_story.nil?
-      render json: 'Chapters Not Found , Story is nil' , status: 404
+      render json: 'Chapters Not Found , Story is nil', status: 404
     else
       all_chapters = current_story.chapters
       if all_chapters.include?(Chapter.find_by(id: params[:id]))
@@ -44,27 +47,6 @@ class ChaptersController < ApplicationController
     # story = Story.find_by(id: params[:id])
   end
 
-#   def edit
-#     p params
-#     chapter = Chapter.find_by(id: params[:id])
-#     render json: ChapterSerializer.new(chapter)
-#   end
-
-#   def create
-#     # chapter = Chapter.new(chapter_params)
-#     # chapter.story_id = params[:story_id]
-#     # if chapter.save?
-#     #   render json: ChapterSerializer.new(chapter)
-#     # else
-#     #   render json: 'New Chapter did not save', status: 400
-#     # end
-#     chapter = Chapter.new(chapter_params)
-#     chapter.story_id = params[:story_id]
-#     p params
-#     if(chapter.save?)
-#       render json: chapter
-#   end
-
   def update
     current_story = Story.find_by(id: params[:story_id], user_id: params[:user_id])
     if current_story.nil?
@@ -72,9 +54,7 @@ class ChaptersController < ApplicationController
     else
       if current_story.chapters.include?(Chapter.where(id: params[:id])[0])
         chapter = Chapter.find_by(id: params[:id])
-        if chapter.update(chapter_params)
-          render json: chapter
-        end
+        render json: chapter if chapter.update(chapter_params)
       else
         render json: 'Chapter does not exist in this Story', status: 404
       end
@@ -85,24 +65,23 @@ class ChaptersController < ApplicationController
     # chapter = Chapter.find_by(id: params[:id])
     current_story = Story.find_by(id: params[:story_id], user_id: params[:user_id])
     if current_story.nil?
-      render json: 'Story Not Found' , status: 404
+      render json: 'Story Not Found', status: 404
     else
       if current_story.chapters.include?(Chapter.where(id: params[:id])[0])
         chapter = Chapter.find_by(id: params[:id])
         chapter_title = chapter.title
         chapter.delete
-        render json: "Deleting '#{chapter_title}'"
+        render json: chapter.to_json
       else
         render json: 'Chapter does not exist in this Story', status: 404
       end
     end
   end
 
-
   private
 
   def chapter_params
-    params.require(:chapter).permit(:title, :body)
+    params.require(:chapter).permit(:title, :body, :story_id)
   end
 
   def chapter_update_params

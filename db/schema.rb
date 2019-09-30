@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2019_09_25_191413) do
     t.string "title", default: "Chapter Title"
     t.text "body", default: "Body Text Goes Here"
     t.integer "story_id"
+    t.integer "chapter_index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

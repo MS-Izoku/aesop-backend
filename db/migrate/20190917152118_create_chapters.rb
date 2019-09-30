@@ -4,6 +4,7 @@ class CreateChapters < ActiveRecord::Migration[5.2]
       t.string :title , default: 'Chapter Title'
       t.text :body , default: 'Body Text Goes Here'
       t.integer :story_id
+      t.integer :chapter_index
       t.timestamps
     end
   end

@@ -8,10 +8,13 @@ class StoriesController < ApplicationController
   end
 
   def create
+    p params
     story = Story.new(story_params)
-    if story.save?
+    story.user_id = params[:user_id]
+    if story.save
       story.create_ownership
-      render json: story
+      Chapter.create(story_id: story.id , title: 'Chapter 1' , chapter_index: 1)
+      render json: story , include: [:chapters]
     else
       render json: 'Failed to create new Story'
     end
@@ -19,7 +22,7 @@ class StoriesController < ApplicationController
 
   def show
     story = Story.find_by(id: params[:id] , user_id: params[:user_id])
-    render json: story
+    render json: story, include: [:chapters]
   end
 
   def update
@@ -46,6 +49,6 @@ class StoriesController < ApplicationController
   end
 
   def story_update_params
-    params.require(:story).permit(:title)
+    params.require(:story).permit(:title , :high_concept , :pitch)
   end
 end

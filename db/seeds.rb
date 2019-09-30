@@ -1,41 +1,17 @@
-# frozen_string_literal: true
+a = User.create(username: 'Vengence' , password: "password" , email: 'x' , avatar_url: '')
 
-lilJim = User.create(username: 'LilJimmy', password: 'password', email: 'email-address-goes-here')
-genesis = Story.create(title: 'The Tale of Darth Plageius the Wise', user_id: lilJim.id)
-UserStory.create(story_id: genesis.id, user_id: lilJim.id)
-
-xd = Story.create(title: 'Fragadard', user_id: lilJim.id)
-counter = 0
-10.times do
-  counter += 1
-  Chapter.create(story_id: xd.id, title: "Chapter #{counter}", body: Faker::Lorem.sentence(word_count: rand(500...600)))
-end
-
-UserStory.create(story_id: xd.id, user_id: lilJim.id)
-counter = 0
-10.times do
-  counter += 1
-  Chapter.create(story_id: genesis.id, title: "Chapter #{counter}", body: Faker::Lorem.sentence(word_count: rand(500...600)))
-end
-
-# =======================================================
-
-fb = User.create(username: 'FrillBosby', password: 'password', email: 'email-address-goes-here')
-exodus = Story.create(title: 'A Dangerous Book for Gender-Nonconforming People', user_id: fb.id)
-UserStory.create(story_id: exodus.id, user_id: fb.id)
+first_story = Story.create(user_id: a.id , title: 'The Tale of Vengence' , pitch:'I am a pitch!' , high_concept: 'Wilko')
 
 counter = 0
-10.times do
-  counter += 1
-  Chapter.create(story_id: exodus.id, title: "Chapter #{counter}", body: Faker::Lorem.sentence(word_count: rand(500...600)))
-end
-
-#=====================================================
-
-10.times do
-    Character.create(name: Faker::Name.name , story_id: 1)
+20.times do
+  counter = counter + 1
+  Chapter.create(title: "Chapter #{counter}" , body: "" , chapter_index: counter , story_id: first_story.id)
 end
 
 5.times do
-  Footnote.create(chapter_id: 11 , title: 'FOOTNOTE' , body: "FN-BODY")
+  Character.create(name: 'Alpha' , personality: "" , story_id: first_story.id , appearance: "")
+end
+
+5.times do
+  Footnote.create(title: 'FN Title' , body: "FN Body" , chapter_id: 1)
 end
