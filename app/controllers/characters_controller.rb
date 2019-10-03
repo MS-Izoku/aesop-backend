@@ -39,15 +39,15 @@ class CharactersController < ApplicationController
   end
 
   def update
+    p params
     current_story = Story.find_by(id: params[:story_id], user_id: params[:user_id])
     if current_story.nil?
       render json: 'Character not found, Story is nil', status: 404
     else
       if current_story.characters.include?(Character.find_by(id: params[:id]))
         character = Character.find_by(id: params[:id])
-        if character.update(character_params)
-          render json: character
-        end
+        p "Updating with params: #{params}"
+        render json: character if character.update(character_params)
       else
         render json: 'Character does not exist in this Story', status: 404
       end
@@ -74,6 +74,6 @@ class CharactersController < ApplicationController
   private
 
   def character_params
-    params.require(:character).permit(:name, :height, :weight, :biograph, :personality)
+    params.require(:character).permit(:name, :height, :weight, :biography, :personality, :img_url, :appearance)
   end
 end

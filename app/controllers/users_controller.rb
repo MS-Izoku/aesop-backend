@@ -1,14 +1,25 @@
 class UsersController < ApplicationController
+  skip_before_action :authorized , only: [:create]
   def index
     users = User.all
- 
     render json: users
   end
 
   def create
-    user = User.new(user_creation_params)
-    render json: "User '#{user.username}' Created" if user.save?
+    p '==========================='
+    p params
+    @user = User.create(user_creation_params)
+    if @user.valid?
+      render json: @user.to_json , except: [:password], status: :created
+    else
+      p user_creation_params
+      p '<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
+      p params
+      render json: {error: @user} , status: :not_acceptable
+  
+    end
   end
+
 
   def show
     user = User.find_by(id: params[:id])
@@ -31,10 +42,14 @@ class UsersController < ApplicationController
     render json: "Deleting #{username} and all related file"
   end
 
+  def profile
+    render json: user.to_json , status: :accepted
+  end
+
   private
 
   def user_creation_params
-    params.require(:user).permit(:username, :password, :email, :bio)
+    params.require(:user).permit(:username, :password, :email)
   end
 
   def user_update_params

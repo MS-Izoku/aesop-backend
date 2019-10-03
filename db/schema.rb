@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 2019_09_25_191413) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "high_concept"
-    t.string "pitch"
+    t.string "pitch", default: "You need a pitch"
   end
 
   create_table "user_stories", force: :cascade do |t|

@@ -13,7 +13,7 @@ class StoriesController < ApplicationController
     story.user_id = params[:user_id]
     if story.save
       story.create_ownership
-      Chapter.create(story_id: story.id , title: 'Chapter 1' , chapter_index: 1)
+      Chapter.create(story_id: story.id , title: 'Preface' , chapter_index: 1)
       render json: story , include: [:chapters]
     else
       render json: 'Failed to create new Story'
