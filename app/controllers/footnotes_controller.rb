@@ -32,8 +32,9 @@ class FootnotesController < ApplicationController
   end
 
   def destroy
-    Footnote.find_by(id: params[:id]).delete
-    render json: 'Footnote deleted'
+    note = Footnote.find_by(id: params[:id])
+    note.delete
+    render json: note.to_json
   end
 
   private

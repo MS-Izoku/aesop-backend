@@ -31,7 +31,7 @@ class CharactersController < ApplicationController
   def create
     character = Character.new(character_params)
     character.story_id = params[:story_id]
-    if chapter.save?
+    if character.save
       render json: character
     else
       render json: 'New Character did not save', status: 400

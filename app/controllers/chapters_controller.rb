@@ -62,14 +62,12 @@ class ChaptersController < ApplicationController
   end
 
   def destroy
-    # chapter = Chapter.find_by(id: params[:id])
     current_story = Story.find_by(id: params[:story_id], user_id: params[:user_id])
     if current_story.nil?
       render json: 'Story Not Found', status: 404
     else
       if current_story.chapters.include?(Chapter.where(id: params[:id])[0])
         chapter = Chapter.find_by(id: params[:id])
-        chapter_title = chapter.title
         chapter.delete
         render json: chapter.to_json
       else
