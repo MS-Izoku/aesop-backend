@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'jwt'
 class FootnotesController < ApplicationController
   def index
     footnotes = Footnote.where(chapter_id: params[:chapter_id])

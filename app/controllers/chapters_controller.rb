@@ -8,7 +8,7 @@ class ChaptersController < ApplicationController
       render json: 'Chapters Not Found , Story is nil', status: 404
     else
       chapters = current_story.chapters
-      render json: chapters
+      render json: chapters.to_json , include: [:footnotes]
     end
   end
 
@@ -23,7 +23,7 @@ class ChaptersController < ApplicationController
       chapter.chapter_index = chapter_count
       chapter.story_id = current_story.id
       if chapter.save
-        render json: chapter
+        render json: chapter.to_json
       else
         render json: 'Chapter Failed to Save'
       end
@@ -38,7 +38,7 @@ class ChaptersController < ApplicationController
       all_chapters = current_story.chapters
       if all_chapters.include?(Chapter.find_by(id: params[:id]))
         chapter = Chapter.find_by(id: params[:id])
-        render json: chapter
+        render json: chapter , include: [:footnotes]
       else
         render json: 'Chapter Not Found in this Story', status: 404
       end
@@ -54,9 +54,11 @@ class ChaptersController < ApplicationController
     else
       if current_story.chapters.include?(Chapter.where(id: params[:id])[0])
         chapter = Chapter.find_by(id: params[:id])
-        render json: chapter if chapter.update(chapter_params)
+        if chapter.update(chapter_params)
+          render json: chapter.to_json, include: [:footnotes]
+        end
       else
-        render json: 'Chapter does not exist in this Story', status: 404
+        render json: { error: 'Chapter does not exist in this Story' }, status: 404
       end
     end
   end
@@ -69,7 +71,7 @@ class ChaptersController < ApplicationController
       if current_story.chapters.include?(Chapter.where(id: params[:id])[0])
         chapter = Chapter.find_by(id: params[:id])
         chapter.delete
-        render json: chapter.to_json
+        render json: chapter.to_json , include: [:footnotes]
       else
         render json: 'Chapter does not exist in this Story', status: 404
       end

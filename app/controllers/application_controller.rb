@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-   # before_action :authorized
+   before_action :authorized
 
   def encode_token(payload)
     JWT.encode(payload, 'secret')
@@ -12,10 +12,11 @@ class ApplicationController < ActionController::API
   end
 
   def decoded_token
+    p "DOING THE THING <<<<<<<<<<<<<<<<<<<<<<<"
     if auth_header
-      token = auth_header.split(' ')[1]
+      @token = auth_header.split(' ')[1]
       begin
-        JTW.decode(token, 'secret', true, algorithm: 'HS256')
+        JWT.decode(@token, 'secret', true, algorithm: 'HS256')
       rescue JWT::DecodeError
         nil
       end
