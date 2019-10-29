@@ -8,7 +8,7 @@ class ChaptersController < ApplicationController
       render json: 'Chapters Not Found , Story is nil', status: 404
     else
       chapters = current_story.chapters
-      render json: chapters.to_json , include: [:footnotes]
+      render json: chapters, include: [:footnotes , :characters]
     end
   end
 
@@ -23,7 +23,7 @@ class ChaptersController < ApplicationController
       chapter.chapter_index = chapter_count
       chapter.story_id = current_story.id
       if chapter.save
-        render json: chapter.to_json
+        render json: chapter, include: [:footnotes , :characters]
       else
         render json: 'Chapter Failed to Save'
       end
@@ -38,13 +38,11 @@ class ChaptersController < ApplicationController
       all_chapters = current_story.chapters
       if all_chapters.include?(Chapter.find_by(id: params[:id]))
         chapter = Chapter.find_by(id: params[:id])
-        render json: chapter , include: [:footnotes]
+        render json: chapter, include: [:footnotes]
       else
         render json: 'Chapter Not Found in this Story', status: 404
       end
     end
-
-    # story = Story.find_by(id: params[:id])
   end
 
   def update
@@ -55,7 +53,7 @@ class ChaptersController < ApplicationController
       if current_story.chapters.include?(Chapter.where(id: params[:id])[0])
         chapter = Chapter.find_by(id: params[:id])
         if chapter.update(chapter_params)
-          render json: chapter.to_json, include: [:footnotes]
+          render json: chapter, include: [:footnotes , :characters]
         end
       else
         render json: { error: 'Chapter does not exist in this Story' }, status: 404
@@ -70,8 +68,9 @@ class ChaptersController < ApplicationController
     else
       if current_story.chapters.include?(Chapter.where(id: params[:id])[0])
         chapter = Chapter.find_by(id: params[:id])
+        chapter.footnotes.delete_all
         chapter.delete
-        render json: chapter.to_json , include: [:footnotes]
+        render json: chapter, include: [:footnotes]
       else
         render json: 'Chapter does not exist in this Story', status: 404
       end
