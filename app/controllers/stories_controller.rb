@@ -28,7 +28,7 @@ class StoriesController < ApplicationController
     p "#UPDATING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
     story = Story.find_by(id: params[:id] , user_id: params[:user_id])
     if story.update(story_update_params)
-      render json: story, include: [:characters , :chapters => {include: [:footnotes , :charcters]}]
+      render json: story, include: [:characters , :chapters => {include: [:footnotes]}]
     else
       render json: "Failed to Update '#{story.title}'"
     end
