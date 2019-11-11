@@ -3,12 +3,12 @@
 a = User.create(username: 'Vengence', password: 'password', email: 'x', avatar_url: '')
 
 20.times do
-  first_story = Story.create(user_id: a.id, title: 'The Tale of Vengence', pitch: Faker::Hipster.paragraph(sentence_count: 1), high_concept: Faker::Hipster.paragraph(sentence_count: 5))
+  first_story = Story.create(user_id: a.id, title: "The Tale of #{Faker::Name.first_name}", pitch: Faker::Hipster.paragraph(sentence_count: 1), high_concept: Faker::Hipster.paragraph(sentence_count: 5))
 
   counter = 0
   20.times do
     counter += 1
-    Chapter.create(title: "Chapter #{counter}", body: Faker::Hipster.paragraph(sentence_count: 200), chapter_index: counter, story_id: first_story.id)
+    Chapter.create(title: "Chapter #{counter}", body: Faker::Hipster.paragraph(sentence_count: 200), chapter_index: counter, story_id: first_story.id , author_id: a.id)
   end
 
   5.times do
@@ -20,6 +20,7 @@ a = User.create(username: 'Vengence', password: 'password', email: 'x', avatar_u
 
     char.height = rand(100..300)
     char.weight = rand(100..300)
+    char.author_id = a.id
     char.save
     CharacterInChapter.create(character_id: char.id, chapter_id: first_story.chapters.first.id)
   end

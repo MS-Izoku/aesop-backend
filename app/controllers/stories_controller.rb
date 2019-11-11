@@ -4,7 +4,7 @@ class StoriesController < ApplicationController
   def index
     stories = Story.where(user_id: params[:user_id])
     # render json: stories , include: [:chapters => {include: [:footnotes]}]
-    render json: stories , include: [:characters , :chapters => {include: [:footnotes , :characters]}]
+    render json: stories , include: [:characters , :chapters => {include: [:footnotes]}]
   end
 
   def create
@@ -13,7 +13,7 @@ class StoriesController < ApplicationController
     if story.save
       story.create_ownership
       Chapter.create(story_id: story.id , title: 'Preface' , chapter_index: 1)
-      render json: story , include: [:characters , :chapters => {include: [:footnotes , :characters]}]
+      render json: story , include: [:characters , :chapters => {include: [:footnotes]}]
     else
       render json: 'Failed to create new Story'
     end

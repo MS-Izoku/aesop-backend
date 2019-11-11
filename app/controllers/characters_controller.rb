@@ -29,6 +29,7 @@ class CharactersController < ApplicationController
   def create
     character = Character.new(character_params)
     character.story_id = params[:story_id]
+    character.author_id = User.find_by(id: Story.find_by(id: params[:story_id]).id)
     if character.save
       render json: character.to_json
     else

@@ -22,6 +22,7 @@ class ChaptersController < ApplicationController
       chapter_count = 1 if chapter_count === 0
       chapter.chapter_index = chapter_count
       chapter.story_id = current_story.id
+      chapter.author_id = User.find_by(id: current_story.user_id)
       if chapter.save
         render json: chapter, include: [:footnotes , :characters]
       else
@@ -38,7 +39,7 @@ class ChaptersController < ApplicationController
       all_chapters = current_story.chapters
       if all_chapters.include?(Chapter.find_by(id: params[:id]))
         chapter = Chapter.find_by(id: params[:id])
-        render json: chapter, include: [:footnotes]
+        render json: chapter, include: [:footnotes , :author_id]
       else
         render json: 'Chapter Not Found in this Story', status: 404
       end

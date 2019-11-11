@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_23_165003) do
+ActiveRecord::Schema.define(version: 2019_11_07_223526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2019_10_23_165003) do
     t.integer "chapter_index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "author_id"
   end
 
   create_table "character_in_chapters", force: :cascade do |t|
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 2019_10_23_165003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "appearance"
+    t.integer "author_id"
   end
 
   create_table "footnotes", force: :cascade do |t|
@@ -79,6 +81,7 @@ ActiveRecord::Schema.define(version: 2019_10_23_165003) do
     t.string "avatar_url"
     t.integer "current_story_id"
     t.integer "current_chapter_id"
+    t.integer "current_character_id"
   end
 
 end
