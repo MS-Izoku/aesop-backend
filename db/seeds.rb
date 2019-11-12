@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-a = User.create(username: 'Vengence', password: 'password', email: 'x', avatar_url: '')
+a = User.create(username: 'username', password: 'password', email: 'x@gmail.com', avatar_url: '')
 
 20.times do
-  first_story = Story.create(user_id: a.id, title: 'The Tale of Vengence', pitch: Faker::Hipster.paragraph(sentence_count: 1), high_concept: Faker::Hipster.paragraph(sentence_count: 5))
+  first_story = Story.create(user_id: a.id, title: Faker::Book.tilte, pitch: Faker::Hipster.paragraph(sentence_count: 1), high_concept: Faker::Hipster.paragraph(sentence_count: 5))
 
   counter = 0
   20.times do
@@ -25,6 +25,6 @@ a = User.create(username: 'Vengence', password: 'password', email: 'x', avatar_u
   end
 
   5.times do
-    Footnote.create(title: 'FN Title', body: Faker::Quotes::Shakespeare.king_richard_iii_quote, chapter_id: first_story.chapters.first.id)
+    Footnote.create(title: 'Note Title', body: Faker::Quotes::Shakespeare.king_richard_iii_quote, chapter_id: first_story.chapters.first.id)
   end
 end
