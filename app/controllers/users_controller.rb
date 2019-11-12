@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   skip_before_action :authorized , only: [:create]
   def index
     users = User.all
-    render json: users.to_json , only: [:username]
+    render json: users.to_json(only: [:username])
   end
 
   def profile
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 
   def show
     user = User.find_by(id: params[:id])
-    render json: user.to_json , only: [:current_story_id , :current_chapter_id]
+    render json: user.to_json(only: [:username , :current_story_id , :current_chapter_id])
   end
 
   def update
