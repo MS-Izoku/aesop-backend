@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-a = User.create(username: 'username', password: 'password', email: 'x@gmail.com', avatar_url: '')
+a = User.create(username: 'username1', password: 'password', email: 'x@gmail.com', avatar_url: '')
 
 20.times do
   first_story = Story.create(user_id: a.id, title: Faker::Book.title, pitch: Faker::Hipster.paragraph(sentence_count: 1), high_concept: Faker::Hipster.paragraph(sentence_count: 5))
