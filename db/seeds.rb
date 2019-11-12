@@ -3,7 +3,7 @@
 a = User.create(username: 'username', password: 'password', email: 'x@gmail.com', avatar_url: '')
 
 20.times do
-  first_story = Story.create(user_id: a.id, title: Faker::Book.tilte, pitch: Faker::Hipster.paragraph(sentence_count: 1), high_concept: Faker::Hipster.paragraph(sentence_count: 5))
+  first_story = Story.create(user_id: a.id, title: Faker::Book.title, pitch: Faker::Hipster.paragraph(sentence_count: 1), high_concept: Faker::Hipster.paragraph(sentence_count: 5))
 
   counter = 0
   20.times do
