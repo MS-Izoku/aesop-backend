@@ -22,7 +22,7 @@ class UsersController < ApplicationController
       @token = encode_token(user_id: user.id)
       render json: { user: user, jwt: @token }, status: :created
     else
-      render json: { message: 'Failed to Create user', error: user.error }, status: :not_acceptable
+      render json: { message: 'Failed to Create user', error: user.errors }, status: :not_acceptable
     end
   end
 
@@ -44,17 +44,27 @@ class UsersController < ApplicationController
   def set_current_story
     user = User.find_by(id: params[:user_id])
     user.update(current_story_id: params[:current_story_id])
+    p '<<<<<<<<<<<<<<<<<'
+    p user.to_json
     render json: user.to_json
   end
 
   def set_current_chapter
+    p "<<<<<<<<<<<<<<<<<<<<<<<<<<"
+    p params
+    p "<<<<<<<<<<<<<<<<<<<<<<<<<<"
     user = User.find_by(id: params[:id])
     user.update(current_chapter_id: Story.find_by(id: params[:id]))
     render json: user.to_json
   end
 
-  private
+  def save_last_visited_state
+    user = User.find_by(id: params[:user_id])
+    user.update(current_chapter_id: params[:current_chapter_id] , current_story_id: params[:current_story_id] , current_character_id: params[:current_character_id])
+    render json: user.to_json
+  end
 
+  private
   def user_params
     params.require(:user).permit(:username, :password, :email)
   end

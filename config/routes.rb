@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   post '/login' , to: 'auth#create'
   get '/profile' , to: 'users#profile'
   patch '/update-profile' , to: 'users#update_profile'
+  #patch '/save-user-state' , to: 'users#save_last_visited_state'
+  
   resources :users , only: [:index , :create, :show , :destroy] do
     #patch "/update-current-story" , to: "users#set_current_story"
     #patch "/set-current-chapter/:story_id" , to: "users#set_current_story"
@@ -12,6 +14,4 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -4,7 +4,8 @@ class StoriesController < ApplicationController
   def index
     stories = Story.where(user_id: params[:user_id])
     # render json: stories , include: [:chapters => {include: [:footnotes]}]
-    render json: stories , include: [:characters , :chapters => {include: [:footnotes , :characters]}]
+    #render json: stories , include: [:characters , :chapters => {include: [:footnotes , :characters]}]
+    render json: stories , include: [:characters , :chapters => {include: [:footnotes]}]
   end
 
   def create
