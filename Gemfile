@@ -54,3 +54,5 @@ gem "faker", "~> 2.3"
 gem 'fast_jsonapi'
 
 gem 'bundler', '~> 2.0', '>= 2.0.2'
+
+gem 'fast_jsonapi'
