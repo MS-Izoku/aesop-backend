@@ -4,7 +4,10 @@ class StoriesController < ApplicationController
   def index
     stories = Story.where(user_id: params[:user_id])
     #render json: stories , include: [:characters , :chapters => {include: [:footnotes , :characters]}]
-    render json: StoriesSerializer.new(stories) # using a serializer here to hep with bulky data
+    options = {
+      include: [:chapters , :characters]
+    }
+    render json: StorySerializer.new(stories) # using a serializer here to hep with bulky data
   end
 
   def create
