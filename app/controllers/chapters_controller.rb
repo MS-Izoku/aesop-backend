@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 class ChaptersController < ApplicationController
-  #   # params ==> id (chapter id) , user_id , story_id
   def index
-    current_story = Story.find_by(id: params[:story_id], user_id: params[:user_id])
+    # current_story = Story.find_by(id: params[:story_id], user_id: params[:user_id])
+    current_story = Story.find_by(id: User.find_by(id: params[:user_id].current_story_id))
     if current_story.nil?
       render json: 'Chapters Not Found , Story is nil', status: 404
     else
       chapters = current_story.chapters
-      render json: chapters, include: [:footnotes , :characters]
+      #render json: chapters, include: [:footnotes , :characters]
+      #options = {include: [ :footnotes]}
+      render json: ChapterSerializer.new(chapters)
     end
   end
 
@@ -38,7 +40,9 @@ class ChaptersController < ApplicationController
       all_chapters = current_story.chapters
       if all_chapters.include?(Chapter.find_by(id: params[:id]))
         chapter = Chapter.find_by(id: params[:id])
-        render json: chapter, include: [:footnotes]
+        #render json: chapter, include: [:footnotes]
+        options = { include: [:footnotes]}
+        render json: ChapterSerializer.new(chapter , options)
       else
         render json: 'Chapter Not Found in this Story', status: 404
       end
