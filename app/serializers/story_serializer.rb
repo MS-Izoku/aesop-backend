@@ -4,12 +4,9 @@ class StorySerializer
      :high_concept , 
      :pitch , 
      :created_at , 
-     :updated_at,
-     #:chapters
+     :updated_at
   )
   has_many :chapters , serializer: ChapterSerializer
-  has_many :characters
-  belongs_to :user
-
-  #cache_options enabled: true , cache_length: 1.hours
+  has_many :characters , serializer: CharacterSerializer
+  belongs_to :user , serializer: UserSerializer
 end
