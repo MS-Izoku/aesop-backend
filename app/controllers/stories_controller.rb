@@ -5,10 +5,11 @@ class StoriesController < ApplicationController
     stories = Story.where(user_id: params[:user_id]).includes(:chapters , :characters)
     #render json: stories , include: [:characters , :chapters => {include: [:footnotes , :characters]}]
     options = {
-      include: [:chapters , :characters]
+     include: [:chapters , :characters]
     }
 
     render json: StorySerializer.new(stories , options)
+    #render json: StorySerializer.new(stories , options)
   end
 
   def create

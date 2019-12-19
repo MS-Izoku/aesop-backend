@@ -1,6 +1,6 @@
 class ChapterSerializer
   include FastJsonapi::ObjectSerializer
-  attributes :title,  :body , :created_at , :updated_at
+  attributes :title, :story_id , :chapter_index,  :created_at , :updated_at , :body
 
   #belongs_to :story
   #has_many :footnotes
