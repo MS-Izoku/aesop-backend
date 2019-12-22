@@ -44,8 +44,6 @@ class UsersController < ApplicationController
   def set_current_story
     user = User.find_by(id: params[:user_id])
     user.update(current_story_id: params[:current_story_id])
-    p '<<<<<<<<<<<<<<<<<'
-    p user.to_json
     render json: user.to_json
   end
 

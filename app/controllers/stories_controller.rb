@@ -4,10 +4,7 @@ class StoriesController < ApplicationController
   def index
     stories = Story.where(user_id: params[:user_id]).includes({ chapters: [:footnotes] }, :characters).to_a
     options = {
-      include: %i[
-        chapters
-        characters
-      ]
+      include: %i[chapters characters]
     }
 
     render json: StorySerializer.new(stories, options)
@@ -26,17 +23,14 @@ class StoriesController < ApplicationController
       Chapter.create(story_id: story.id, title: 'Preface', chapter_index: 1)
       options = { include: %i[chapters characters] }
       render json: StorySerializer.new(story, options)
-      # render json: story , include: [:characters , :chapters => {include: [:footnotes , :characters]}]
     else
       render json: { error: 'Failed to create new Story' }, status: 400
     end
   end
 
   def show
-    #story = Story.find_by(id: params[:id], user_id: params[:user_id])
-    story = Story.includes({chapters: [:footnotes]} , :characters).where(id: params[:id] , user_id: params[:user_id]).to_a
+    story = Story.includes({ chapters: [:footnotes] }, :characters).where(id: params[:id], user_id: params[:user_id]).to_a
     options = { include: %i[chapters characters] }
-    # options = {}
     render json: StorySerializer.new(story, options)
   end
 
@@ -57,7 +51,6 @@ class StoriesController < ApplicationController
     story.destroy
     options = { include: %i[chapters footnotes] }
     render json: StorySerializer.new(story, options)
-    # render json: story.to_json, include: [:characters , :chapters => {include: [:footnotes , :characters]}]
   end
 
   private
