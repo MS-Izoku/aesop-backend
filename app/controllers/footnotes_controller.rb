@@ -3,7 +3,8 @@ require 'jwt'
 class FootnotesController < ApplicationController
   def index
     footnotes = Footnote.where(chapter_id: params[:chapter_id])
-    render json: footnotes.to_json
+    render json: FootnoteSerializer.new(footnotes)
+    #render json: footnotes.to_json
   end
 
   def create

@@ -44,15 +44,10 @@ class UsersController < ApplicationController
   def set_current_story
     user = User.find_by(id: params[:user_id])
     user.update(current_story_id: params[:current_story_id])
-    p '<<<<<<<<<<<<<<<<<'
-    p user.to_json
     render json: user.to_json
   end
 
   def set_current_chapter
-    p "<<<<<<<<<<<<<<<<<<<<<<<<<<"
-    p params
-    p "<<<<<<<<<<<<<<<<<<<<<<<<<<"
     user = User.find_by(id: params[:id])
     user.update(current_chapter_id: Story.find_by(id: params[:id]))
     render json: user.to_json
@@ -70,6 +65,6 @@ class UsersController < ApplicationController
   end
 
   def user_update_params # this is used as a solution to store last-visited pages from visit to visit
-    params.require(:user).permit(:username, :current_chapter_id, :current_story_id)
+    params.require(:user).permit(:username, :current_chapter_id, :current_story_id , :current_character_id)
   end
 end
